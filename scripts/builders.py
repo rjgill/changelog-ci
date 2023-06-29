@@ -254,6 +254,8 @@ class CommitMessageChangelogBuilder(ChangelogBuilderBase):
         url = f"{self.GITHUB_API_URL}/repos/{self.action_env.repository}/commits?per_page=999"
         previous_release_date = self._get_latest_release_date()
 
+        gha_utils.notice(f"Last release date is {previous_release_date}")
+
         if previous_release_date:
             url = f"{url}&since={previous_release_date}"
 
