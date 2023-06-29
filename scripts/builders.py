@@ -114,8 +114,9 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
             f"?q=repo:{self.action_env.repository}+"
             "is:pr+"
             "is:merged+"
-            "sort:created-asc+"
-            f"{merged_date_filter}"
+            "sort:created-desc+"
+            "base:develop"
+            # f"{merged_date_filter}"
             "&per_page=999"
         )
 
