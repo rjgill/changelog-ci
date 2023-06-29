@@ -5,9 +5,9 @@ LABEL "com.github.actions.description"="Changelog CI is a GitHub Action that gen
 LABEL "com.github.actions.icon"="clock"
 LABEL "com.github.actions.color"="blue"
 
-LABEL "repository"="https://github.com/saadmk11/changelog-ci"
-LABEL "homepage"="https://github.com/saadmk11/changelog-ci"
-LABEL "maintainer"="saadmk11"
+LABEL "repository"="https://github.com/rjgill/changelog-ci"
+LABEL "homepage"="https://github.com/rjgill/changelog-ci"
+LABEL "maintainer"="rjgill"
 
 RUN apt-get update \
     && apt-get install \
