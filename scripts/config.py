@@ -65,7 +65,7 @@ class Configuration(NamedTuple):
 
     git_committer_username: str = "github-actions[bot]"
     git_committer_email: str = "github-actions[bot]@users.noreply.github.com"
-    release_version: str | None = "0.0.0"
+    release_version: str | None = None
     github_token: str | None = None
 
     @property
