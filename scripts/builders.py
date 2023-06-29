@@ -109,48 +109,55 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         # https://docs.github.com/en/rest/search#search-issues-and-pull-requests
         # https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests
         # https://docs.github.com/en/search-github/getting-started-with-searching-on-github/sorting-search-results
-        url = (
-            f"{self.GITHUB_API_URL}/search/issues"
-            f"?q=repo:{self.action_env.repository}+"
-            "is:pr+"
-            "is:merged+"
-            "sort:created-desc+"
-            "base:develop"
-            # f"{merged_date_filter}"
-            "&per_page=999"
-        )
-
+        page = 1
         items = []
+        while True:
+            url = (
+                f"{self.GITHUB_API_URL}/search/issues"
+                f"?q=repo:{self.action_env.repository}+"
+                "is:pr+"
+                "is:merged+"
+                "sort:created-desc+"
+                # f"{merged_date_filter}"
+                "&per_page=999"
+                f"&page={page}"
+            )
 
-        response = requests.get(
-            url, headers=get_request_headers(self.config.github_token)
-        )
+            response = requests.get(
+                url, headers=get_request_headers(self.config.github_token)
+            )
 
-        if response.status_code == 200:
-            response_data = response.json()
+            if response.status_code == 200:
+                response_data = response.json()
 
-            # `total_count` represents the number of
-            # pull requests returned by the API call
-            if response_data["total_count"] > 0:
-                for item in response_data["items"]:
-                    data = {
-                        "title": item["title"],
-                        "number": item["number"],
-                        "url": item["html_url"],
-                        "labels": [label["name"] for label in item["labels"]],
-                    }
-                    items.append(data)
+                # `total_count` represents the number of
+                # pull requests returned by the API call
+                if response_data["total_count"] > 0:
+                    for item in response_data["items"]:
+                        data = {
+                            "title": item["title"],
+                            "number": item["number"],
+                            "url": item["html_url"],
+                            "labels": [label["name"] for label in item["labels"]],
+                        }
+                        items.append(data)
+                    page = page + 1 
+                    continue
+                else:
+                    gha_utils.error(
+                        f"There was no pull request "
+                        f"made on {self.action_env.repository} after last release."
+                    )
+                    break
             else:
                 gha_utils.error(
-                    f"There was no pull request "
-                    f"made on {self.action_env.repository} after last release."
+                    f"Could not get pull requests for "
+                    f"{self.action_env.repository} from GitHub API. "
+                    f"response status code: {response.status_code}"
                 )
-        else:
-            gha_utils.error(
-                f"Could not get pull requests for "
-                f"{self.action_env.repository} from GitHub API. "
-                f"response status code: {response.status_code}"
-            )
+                break
+            
+
         return items
 
     @lru_cache
