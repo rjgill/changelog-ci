@@ -119,7 +119,7 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
                 "is:merged+"
                 "sort:created-desc+"
                 # f"{merged_date_filter}"
-                "&per_page=999"
+                "&per_page=999+"
                 f"&page={page}"
             )
 
