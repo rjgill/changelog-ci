@@ -251,9 +251,9 @@ class ChangelogCIPullRequestEvent(ChangelogCIBase):
         # It might happen if the pull request is not meant to be release
         # or the title was not accurate.
         gha_utils.error(
-            "Could not find matching version number from pull request title. "
+            f"Could not find matching version number from pull request title. Received {pull_request_title}"
             f"Regex tried: {self.config.version_regex} "
-            "and `release_version` input was also not provided. "
+            f"and `release_version` input was also not provided. Received {release_version}"
             "Aborting Changelog Generation"
         )
         raise SystemExit(0)

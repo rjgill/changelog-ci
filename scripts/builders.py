@@ -116,7 +116,7 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
             "is:merged+"
             "sort:created-asc+"
             f"{merged_date_filter}"
-            "&per_page=100"
+            "&per_page=999"
         )
 
         items = []
@@ -243,7 +243,7 @@ class CommitMessageChangelogBuilder(ChangelogBuilderBase):
         """Get all the merged pull request after latest release"""
         # Detail on the GitHub Commits API:
         # https://docs.github.com/en/rest/commits/commits#list-commits
-        url = f"{self.GITHUB_API_URL}/repos/{self.action_env.repository}/commits?per_page=100"
+        url = f"{self.GITHUB_API_URL}/repos/{self.action_env.repository}/commits?per_page=999"
         previous_release_date = self._get_latest_release_date()
 
         if previous_release_date:
