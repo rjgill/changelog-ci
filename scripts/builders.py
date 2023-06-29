@@ -98,6 +98,8 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         """Get all the merged pull request after latest release"""
         previous_release_date = self._get_latest_release_date()
 
+        gha_utils.notice(f"Last release date is {previous_release_date}")
+        
         if previous_release_date:
             merged_date_filter = "merged:>=" + previous_release_date
         else:
