@@ -8,6 +8,7 @@ import requests
 from .config import MARKDOWN_FILE, ActionEnvironment, Configuration
 from .utils import get_request_headers
 
+from datetime import datetime 
 
 class ChangelogBuilderBase:
     """Base Class for Changelog Builder"""
@@ -99,7 +100,7 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         previous_release_date = self._get_latest_release_date()
 
         gha_utils.notice(f"Last release date is {previous_release_date}")
-        
+
         if previous_release_date:
             merged_date_filter = "merged:>=" + previous_release_date
         else:
@@ -167,9 +168,9 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         """Parse the pull requests data and return a string (Markdown or ReStructuredText)"""
         new_changes = copy.deepcopy(self.change_list)
         header = f"{self.config.header_prefix} {self.release_version}"
-
+        date_str = datetime.now().strftime("%Y-%m-%d")
         if file_type == MARKDOWN_FILE:
-            changelog_string = f"# {header}\n\n"
+            changelog_string = f"# {header}\n## {date_str}\n\n"
         else:
             changelog_string = f"{header}\n{'=' * len(header)}\n\n"
 
@@ -304,9 +305,9 @@ class CommitMessageChangelogBuilder(ChangelogBuilderBase):
         """Parse the commit data and return a string (Markdown or ReStructuredText)"""
         new_changes = copy.deepcopy(self.change_list)
         header = f"{self.config.header_prefix} {self.release_version}"
-
+        date_str = datetime.now().strftime("%Y-%m-%d")
         if file_type == MARKDOWN_FILE:
-            changelog_string = f"# {header}\n\n"
+            changelog_string = f"# {header}\n## {date_str}\n\n"
         else:
             changelog_string = f"{header}\n{'=' * len(header)}\n\n"
         changelog_string += "".join(
