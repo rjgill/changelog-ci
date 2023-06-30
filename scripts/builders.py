@@ -112,10 +112,10 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         # https://docs.github.com/en/rest/search#search-issues-and-pull-requests
         # https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests
         # https://docs.github.com/en/search-github/getting-started-with-searching-on-github/sorting-search-results
-        page = 1
+        
         items = []
         for target_branch in self.config.branches:
-            
+            page = 1    
             gha_utils.notice(f"Searching PRs in branch {target_branch}")
 
             while True:
