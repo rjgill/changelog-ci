@@ -136,6 +136,8 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
                 if response.status_code == 200:
                     response_data = response.json()
 
+                     gha_utils.notice(f"Received {response_data}")
+
                     # `total_count` represents the number of
                     # pull requests returned by the API call
                     if response_data["total_count"] > 0:
