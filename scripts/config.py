@@ -57,6 +57,7 @@ class Configuration(NamedTuple):
         r"0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?"
     )
     changelog_type: str = PULL_REQUEST
+    branches: list[str] = ["main", "develop"]
     group_config: list[dict[str, str | list[str]]] = []
     exclude_labels: list[str] = []
     include_unlabeled_changes: bool = True
