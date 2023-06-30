@@ -115,7 +115,9 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
         page = 1
         items = []
         for target_branch in self.config.branches:
+            
             gha_utils.notice(f"Searching PRs in branch {target_branch}")
+
             while True:
                 url = (
                     f"{self.GITHUB_API_URL}/search/issues"
@@ -128,7 +130,7 @@ class PullRequestChangelogBuilder(ChangelogBuilderBase):
                     "&per_page=999+"
                     f"&page={page}"
                 )
-
+                gha_utils.notice(f"Querying -- {url}")
                 response = requests.get(
                     url, headers=get_request_headers(self.config.github_token)
                 )
